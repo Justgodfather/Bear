@@ -1,12 +1,31 @@
 const axios = require('axios');
 
-// Функция для создания медведя (POST запрос)
+// Добавьте переменную окружения для URL сервера API
+const API_URL = process.env.API_URL || 'http://localhost:8091';
+
+// Общий обработчик ошибок
+const errorHandler = (error) => {
+    console.error('Ошибка:', error.response ? error.response.data : error.message);
+};
+
+// Функция для выполнения HTTP запросов
+const sendRequest = async (method, endpoint, data = null) => {
+    try {
+        const response = await axios({ method, url: `${API_URL}/${endpoint}`, data });
+        return response.data;
+    } catch (error) {
+        errorHandler(error);
+        throw error;
+    }
+};
+
+// Функция для создания медведя
 const createBear = async (bearData) => {
     try {
-        const response = await axios.post('http://localhost:8091/bear', bearData);
-        console.log('Медведь успешно создан:', response.data);
+        const response = await sendRequest('post', 'bear', bearData);
+        console.log('Медведь успешно создан:', response);
     } catch (error) {
-        console.error('Ошибка при создании медведя:', error.response.data);
+        console.error('Ошибка при создании медведя');
     }
 };
 
@@ -25,76 +44,70 @@ const createMultipleBears = async (count) => {
 // Функция для получения всех медведей (GET запрос)
 const getAllBears = async () => {
     try {
-        const response = await axios.get('http://localhost:8091/bear');
-        console.log('Информация о всех медведях:', response.data);
+        const response = await sendRequest('get', 'bear');
+        console.log('Информация о всех медведях:', response);
     } catch (error) {
-        console.error('Ошибка при получении информации о медведях:', error.response.data);
+        console.error('Ошибка при получении информации о медведях');
     }
 };
 
 // Функция для получения медведя по его ID (GET запрос)
 const getBearById = async (bearId) => {
     try {
-        const response = await axios.get(`http://localhost:8091/bear/${bearId}`);
-        console.log('Информация о медведе по ID:', response.data);
+        const response = await sendRequest('get', `bear/${bearId}`);
+        console.log('Информация о медведе по ID:', response);
     } catch (error) {
-        console.error('Ошибка при получении информации о медведе по ID:', error.response.data);
+        console.error('Ошибка при получении информации о медведе по ID');
     }
 };
 
 // Функция для обновления медведя по его ID (PUT запрос)
 const updateBearById = async (bearId, updatedBearData) => {
     try {
-        const response = await axios.put(`http://localhost:8091/bear/${bearId}`, updatedBearData);
-        console.log('Медведь успешно обновлен:', response.data);
+        const response = await sendRequest('put', `bear/${bearId}`, updatedBearData);
+        console.log('Медведь успешно обновлен:', response);
     } catch (error) {
-        console.error('Ошибка при обновлении медведя:', error.response.data);
+        console.error('Ошибка при обновлении медведя');
     }
 };
 
 // Функция для удаления всех медведей (DELETE запрос)
 const deleteAllBears = async () => {
     try {
-        await axios.delete('http://localhost:8091/bear');
+        await sendRequest('delete', 'bear');
         console.log('Все медведи успешно удалены.');
     } catch (error) {
-        console.error('Ошибка при удалении всех медведей:', error.response.data);
+        console.error('Ошибка при удалении всех медведей');
     }
 };
 
 // Функция для удаления медведя по его ID (DELETE запрос)
 const deleteBearById = async (bearId) => {
     try {
-        await axios.delete(`http://localhost:8091/bear/${bearId}`);
+        await sendRequest('delete', `bear/${bearId}`);
         console.log(`Медведь с ID ${bearId} успешно удален.`);
     } catch (error) {
-        console.error(`Ошибка при удалении медведя с ID ${bearId}:`, error.response.data);
+        console.error(`Ошибка при удалении медведя с ID ${bearId}`);
     }
 };
 
-// Создаем 5 медведей
+// Пример использования
 createMultipleBears(5).then(() => {
     // После создания всех медведей продолжаем выполнение других запросов
     
     // Получаем информацию о всех медведях
     getAllBears();
     
-    // Получаем информацию о медведе по его ID (замените 'your_bear_id_here' на реальный ID)
-    const bearId = 12;
-    getBearById(bearId);
+    // Получаем информацию о медведе по его ID
+    getBearById(12);
     
-    // Обновляем информацию о медведе по его ID (замените 'your_bear_id_here' и 'updated_bear_data_here')
-    const bearIdToUpdate = 16;
-    const updatedBearData = { bear_name: 'нова', bear_age: 10 };
-    updateBearById(bearIdToUpdate, updatedBearData);
+    // Обновляем информацию о медведе по его ID
+    updateBearById(16, { bear_name: 'нова', bear_age: 10 });
     
-    // Удаляем медведя по его ID (замените 'your_bear_id_here' на реальный ID)
-    const bearIdToDelete = 31;
-    deleteBearById(bearIdToDelete);
+    // Удаляем медведя по его ID
+    deleteBearById(31);
     
     // Удаляем всех медведей
     deleteAllBears();
 });
-//owondoi
-
 
