@@ -99,13 +99,13 @@ createMultipleBears(5).then(() => {
     getAllBears();
     
     // Получаем информацию о медведе по его ID
-    getBearById(12);
+    getBearById(3);
     
     // Обновляем информацию о медведе по его ID
-    updateBearById(16, { bear_name: 'нова', bear_age: 10 });
+    updateBearById(2, { bear_name: 'нова', bear_age: 10 });
     
     // Удаляем медведя по его ID
-    deleteBearById(31);
+    deleteBearById(5);
     
     // Удаляем всех медведей
     deleteAllBears();
