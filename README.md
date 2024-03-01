@@ -23,5 +23,5 @@ npm install axios
 npm install
 
 # Запуск приложения
-node ваш_файл.js
+node miwa.js
 
