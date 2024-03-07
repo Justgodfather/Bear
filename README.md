@@ -16,8 +16,8 @@ npm install axios
 Зпустить docker run -d -p 8091:8091 azshoo/alaska:1.0;
 
 # Клонирование репозитория с приложением (если необходимо)
-# git clone ваш_репозиторий
-# cd ваш_репозиторий
+# git clone git@github.com:Justgodfather/BEAR.git
+# cd miwa.js
 
 # Установка зависимостей проекта
 npm install
