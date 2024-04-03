@@ -23,5 +23,6 @@ npm install axios
 npm install
 
 # Запуск приложения
-node miwa.js
+node --env-file=API.env miwa.js
+
 
